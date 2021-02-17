@@ -204,6 +204,28 @@ storiesOf("Button", module)
           onCancel={action("onCancel")}
           />
         ))
+        
+
+        storiesOf("Displaying Appointment", module)
+        .addParameters({
+          backgrounds: [{name: "white", value: "#fff", default: true}]
+        })
+        .add("Appointment Empty", () => (
+          <Fragment>
+            <Appointment id={1} time="12pm" />
+            <Appointment id="last" time="1pm" />
+          </Fragment>
+        ))
+        .add("Appointment Booked", () => (
+          <Fragment>
+            <Appointment
+              id={1}
+              time="12pm"
+              interview={{ student: "Lydia Miller-Jones", interviewer }}
+            />
+            <Appointment id="last" time="1pm" />
+          </Fragment>
+        ))
 
 
 
