@@ -5,30 +5,49 @@ import axios from "axios";
 import "components/Application.scss";
 import DayList from "components/DayList";
 import Appointment from "components/Appointment";
-import { getAppointmentsForDay } from "components/helpers/selectors";
-
+import { getAppointmentsForDay, getInterview, getInterviewersForDay } from "components/helpers/selectors";
 
 export default function Application(props) {
   
   const [state, setState] = useState({
     day: "Monday",
     days: [],
-    appointments: {}
+    appointments: {},
+    interviewers: {}
   });
 
-  const dailyAppointments = getAppointmentsForDay(state, state.day);
-
-  const setDay = day => setState({...state, day});
+  
+  const setDay = day => setState(state => ({...state, day}));
   
   useEffect(() => {
-
-    Promise.all([axios.get('/api/days'), axios.get('/api/appointments'), axios.get('/api/interviewers')])
-      .then((all) => {
-        setState(prev => ({...prev, days: all[0].data, appointments: all[1].data}))
-      })
+    
+    Promise.all([
+      axios.get('/api/days'), 
+      axios.get('/api/appointments'), 
+      axios.get('/api/interviewers')
+    ])
+    .then((all) => {
+      setState(prev => ({...prev, days: all[0].data, appointments: all[1].data, interviewers: all[2].data}))
+    })
+    .catch(err => console.error(err))
   }, [])
 
-  const parsedApps = dailyAppointments.map( (appointment) => <Appointment key={appointment.id} {...appointment} />);
+  const dailyAppointments = getAppointmentsForDay(state, state.day);
+  const interviewers = getInterviewersForDay(state, state.day);
+      
+  const schedule = dailyAppointments.map((appointment) => {
+  const interview = getInterview(state, appointment.interview);
+
+    return (
+      <Appointment 
+        key={appointment.id} 
+        id={appointment.id}
+        time={appointment.time}
+        interview={interview}
+        interviewers={interviewers}
+      />
+    );
+  });
 
   return (
     <main className="layout">
@@ -53,7 +72,7 @@ export default function Application(props) {
 />
       </section>
       <section className="schedule">
-      {parsedApps}
+      {schedule}
       <Appointment key="last" time="5pm" />
         {/* Replace this with the schedule elements durint the "The Scheduler" activity. */}
       </section>
