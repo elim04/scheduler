@@ -16,15 +16,7 @@ const transition = (newMode, replace = false) => {
     setHistory(history => [...history.slice(0, -1), newMode])
     setMode(newMode)
   }
-  
-  // if (replace) {
-  //   const newHistory = [...history];
-  //   setMode(newHistory[newHistory.length - 1])
-  //   setHistory(newHistory.slice(0, -1))
-  // }
-  
-  //   setMode(newMode);
-  //   setHistory(history => [...history, newMode]);
+
 }
 
 const back = () => {
