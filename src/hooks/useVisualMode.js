@@ -7,14 +7,24 @@ const [history, setHistory] = useState([initial]);
 
 const transition = (newMode, replace = false) => {
 
-  if (replace) {
-    const newHistory = [...history];
-    setMode(newHistory[newHistory.length - 1])
-    setHistory(newHistory.slice(0, -1))
+  if (!replace) {
+
+    setMode(newMode)
+    setHistory(history => [...history, newMode])
+  } else {
+
+    setHistory(history => [...history.slice(0, -1), newMode])
+    setMode(newMode)
   }
   
-    setMode(newMode);
-    setHistory(history => [...history, newMode]);
+  // if (replace) {
+  //   const newHistory = [...history];
+  //   setMode(newHistory[newHistory.length - 1])
+  //   setHistory(newHistory.slice(0, -1))
+  // }
+  
+  //   setMode(newMode);
+  //   setHistory(history => [...history, newMode]);
 }
 
 const back = () => {
