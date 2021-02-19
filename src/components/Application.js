@@ -32,7 +32,6 @@ export default function Application(props) {
 
     return axios.put(`/api/appointments/${id}`, {interview})
       .then(res => console.log(res))
-      .catch(err => console.error(err))
 
   }
 
@@ -46,7 +45,6 @@ export default function Application(props) {
 
     return axios.delete(`/api/appointments/${id}`)
       .then(res => console.log(res))
-      .catch(err => console.error(err))
 
   }
 
