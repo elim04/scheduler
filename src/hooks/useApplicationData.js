@@ -7,8 +7,24 @@ export default function useApplicationData() {
     day: "Monday",
     days: [],
     appointments: {},
-    interviewers: {}
+    interviewers: {},
   });
+
+
+  const getDays = function(id, appointments) {
+    const newDays = state.days.map((day) =>  {
+      if (day.appointments.includes(id)) {
+        return {...day, spots: day.appointments.filter((appointmentId) => {
+          return (appointments[appointmentId].interview === null)
+        }).length }
+      } else {
+        return day;
+      }
+    })
+
+    return newDays;
+  }
+
 
   function bookInterview(id, interview) {
 
@@ -16,29 +32,55 @@ export default function useApplicationData() {
       ...state.appointments[id],
       interview: { ...interview }
     };
+    
+    const appointments = {
+      ...state.appointments,
+      [id]: appointment
+    };
+    
+    // const days = state.days.map((day) => {
+    //   if (day.appointments.includes(id)) {
+    //     return {...day, spots: day.appointments.filter((appointmentId) => {
+    //       return (appointments[appointmentId].interview === null)
+    //     }).length }
+    //   } else {
+    //     return day;
+    //   }
+    // })
+
+    const days = getDays(id, appointments);
+
+
+    return axios.put(`/api/appointments/${id}`, {interview})
+      .then(() => setState(state => ({...state, days, appointments})))
+
+  }
+
+  function cancelInterview(id) {
+
+    const appointment = {
+      ...state.appointments[id],
+      interview: null
+    }
 
     const appointments = {
       ...state.appointments,
       [id]: appointment
     };
 
-    setState(state => ({...state, appointments}))
-
-    return axios.put(`/api/appointments/${id}`, {interview})
-      .then(res => console.log(res))
-
-  }
-
-  function cancelInterview(id) {
-
-    const appointments = {
-      ...state.appointments
-    };
-
-    appointments[id].interview = null;
+    const days = getDays(id, appointments);
+    // const days = state.days.map((day) => {
+    //   if (day.appointments.includes(id)) {
+    //     return {...day, spots: day.appointments.filter((appointmentId) => {
+    //       return (appointments[appointmentId].interview === null)
+    //     }).length }
+    //   } else {
+    //     return day;
+    //   }
+    // })
 
     return axios.delete(`/api/appointments/${id}`)
-      .then(res => console.log(res))
+      .then(() => setState(state => ({...state, days, appointments})))
 
   }
   
