@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 
 import "components/Appointment/styles.scss";
 import Header from "components/Appointment/Header";
@@ -56,11 +56,20 @@ export default function Appointment(props) {
 
   }
 
+  //make sure correct mode renders after new interview is added or deleted
+  useEffect(() => {
+    if (mode === EMPTY && props.interview) {
+      transition(SHOW)
+    } else if (mode === SHOW && !props.interview) {
+      transition(EMPTY)
+    }
+  }, [props.interview, transition, mode]);
+
   return (
     <article className="appointment">
       <Header time={props.time}/>
       {mode === EMPTY && <Empty onAdd={() => transition(CREATE)} />}
-      {mode === SHOW && (
+      {mode === SHOW && props.interview && (
         <Show 
           student={props.interview.student}
           interviewer={props.interview.interviewer}

@@ -2,6 +2,7 @@ import { useEffect, useReducer } from "react"
 import axios from "axios"
 
 export default function useApplicationData() {
+  
   const SET_DAY = "SET_DAY";
   const SET_APPLICATION_DATA = "SET_APPLICATION_DATA";
   const SET_INTERVIEW = "SET_INTERVIEW";
@@ -12,8 +13,24 @@ export default function useApplicationData() {
         return { ...state, day: action.day }
       case SET_APPLICATION_DATA:
         return { ...state, days: action.days, appointments: action.appointments, interviewers: action.interviewers }
-      case SET_INTERVIEW:
-        return { ...state, days: action.days, appointments: action.appointments } 
+      case SET_INTERVIEW: {
+
+        const appointment = {
+          ...state.appointments[action.id],
+          interview: action.interview 
+        };
+        
+        const appointments = {
+          ...state.appointments,
+          [action.id]: appointment
+        };
+    
+        const days = getDays(action.id, appointments, state);
+        
+        return { ...state, days: days, appointments: appointments } 
+
+      }
+
       default: 
         throw new Error(
         `Tried to reduce with unsupported action type: ${action.type}`
@@ -29,7 +46,7 @@ export default function useApplicationData() {
   })
 
   //helper function for updating spots after new appointment scheduled or cancelled
-  const getDays = function(id, appointments) {
+  function getDays (id, appointments, state) {
     const newDays = state.days.map((day) =>  {
       if (day.appointments.includes(id)) {
         return {...day, spots: day.appointments.filter((appointmentId) => {
@@ -46,39 +63,15 @@ export default function useApplicationData() {
 
   function bookInterview(id, interview) {
 
-    const appointment = {
-      ...state.appointments[id],
-      interview: { ...interview }
-    };
-    
-    const appointments = {
-      ...state.appointments,
-      [id]: appointment
-    };
-
-    const days = getDays(id, appointments);
-
     return axios.put(`/api/appointments/${id}`, { interview })
-      .then(() => dispatch({ type: SET_INTERVIEW, days, appointments}))
+      .then(() => dispatch({ type: SET_INTERVIEW, id, interview}))
 
   }
 
   function cancelInterview(id) {
 
-    const appointment = {
-      ...state.appointments[id],
-      interview: null
-    }
-
-    const appointments = {
-      ...state.appointments,
-      [id]: appointment
-    };
-
-    const days = getDays(id, appointments);
-
     return axios.delete(`/api/appointments/${id}`)
-      .then(() => dispatch({ type: SET_INTERVIEW, days, appointments }))
+      .then(() => dispatch({ type: SET_INTERVIEW, id, interview: null }))
 
   }
   
@@ -97,13 +90,22 @@ export default function useApplicationData() {
     .catch(err => console.error(err))
   }, [])
 
+  //web socket setup
   useEffect(() => {
 
-    const webSocket = new WebSocket(process.env.REACT_APP_WEBSOCKET_URL);
+    const socket = new WebSocket(process.env.REACT_APP_WEBSOCKET_URL);
 
-    webSocket.onopen = function() {
-      console.log("I opened the web socket!");
-      webSocket.send("testing 1 2 3")
+    socket.onopen = () => {
+      socket.send("ping")
+      socket.onmessage = (event) => {
+        const aptData = JSON.parse(event.data);
+  
+        if (aptData.type === "SET_INTERVIEW") {
+          console.log("aptData", aptData)
+          dispatch({ type: SET_INTERVIEW, id: aptData.id, interview: aptData.interview })
+  
+        }
+      }
     }
 
   }, [])
