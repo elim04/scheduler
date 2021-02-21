@@ -101,7 +101,6 @@ export default function useApplicationData() {
         const aptData = JSON.parse(event.data);
   
         if (aptData.type === "SET_INTERVIEW") {
-          console.log("aptData", aptData)
           dispatch({ type: SET_INTERVIEW, id: aptData.id, interview: aptData.interview })
   
         }
@@ -109,7 +108,6 @@ export default function useApplicationData() {
     }
 
   }, [])
-
 
   return {state, setDay, bookInterview, cancelInterview}
 
