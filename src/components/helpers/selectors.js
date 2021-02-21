@@ -2,7 +2,6 @@
 export function getAppointmentsForDay(state, day) {
 
   const filteredDay = state.days.find((currentDay) => currentDay.name === day);
-
   //if filteredDay exists, then use map to replace array of ids with the appointment ids and return
   const filteredApp = filteredDay ? filteredDay.appointments.map((id) => state.appointments[id]) : [];
 
@@ -15,9 +14,7 @@ export function getInterview({ interviewers }, interview) {
   if (!interview) {
     return null;
   }
-
   const interviewInfo = interviewers[interview.interviewer];
-
   const finalInterview = {...interview, interviewer: interviewInfo};
 
   return finalInterview;
@@ -27,9 +24,7 @@ export function getInterview({ interviewers }, interview) {
 export function getInterviewersForDay(state, day) {
 
   const filteredDay = state.days.find((currentDay) => currentDay.name === day);
-
   const filteredInterviewers = filteredDay ? filteredDay.interviewers.map((id) => state.interviewers[id]) : [];
- 
 
   return filteredInterviewers;
 

@@ -29,6 +29,7 @@ export default function useApplicationData() {
     interviewers: {},
   })
 
+  //helper function for updating spots after new appointment scheduled or cancelled
   const getDays = function(id, appointments) {
     const newDays = state.days.map((day) =>  {
       if (day.appointments.includes(id)) {
@@ -56,11 +57,9 @@ export default function useApplicationData() {
       [id]: appointment
     };
 
-
     const days = getDays(id, appointments);
 
-
-    return axios.put(`/api/appointments/${id}`, {interview})
+    return axios.put(`/api/appointments/${id}`, { interview })
       .then(() => dispatch({ type: SET_INTERVIEW, days, appointments}))
 
   }
