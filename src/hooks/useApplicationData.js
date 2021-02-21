@@ -2,7 +2,6 @@ import { useEffect, useReducer } from "react"
 import axios from "axios"
 
 export default function useApplicationData() {
-
   const SET_DAY = "SET_DAY";
   const SET_APPLICATION_DATA = "SET_APPLICATION_DATA";
   const SET_INTERVIEW = "SET_INTERVIEW";
@@ -96,6 +95,17 @@ export default function useApplicationData() {
       dispatch({ type: SET_APPLICATION_DATA, days: all[0].data, appointments: all[1].data, interviewers: all[2].data })
     })
     .catch(err => console.error(err))
+  }, [])
+
+  useEffect(() => {
+
+    const webSocket = new WebSocket(process.env.REACT_APP_WEBSOCKET_URL);
+
+    webSocket.onopen = function() {
+      console.log("I opened the web socket!");
+      webSocket.send("testing 1 2 3")
+    }
+
   }, [])
 
 
