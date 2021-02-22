@@ -106,6 +106,9 @@ export default function useApplicationData() {
         }
       }
     }
+    return () => {
+      socket.close()
+    } 
 
   }, [])
 
