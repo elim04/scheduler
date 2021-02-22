@@ -9,7 +9,6 @@ export default function InterviewerList(props) {
 
   const { interviewers } = props;
 
-
   const parsedInterviewers = interviewers.map((interviewer) => { 
     return (
       <InterviewerListItem
