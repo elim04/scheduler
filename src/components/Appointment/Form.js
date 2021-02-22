@@ -21,10 +21,18 @@ export default function Form(props) {
   }
 
   function validate() {
-    if (name === ""){
-      setError("Student name cannot be blank");
+    if (!name || !interviewer) {
+
+      const errorMsg = !name ? "Student name cannot be blank!" : "Please select an interviewer!" 
+      setError(errorMsg);
       return;
     }
+
+    // if(!value) {
+    //   setError("Please select an interviewer")
+    // }
+
+    setError("");
     props.onSave(name, interviewer);
   }
 
