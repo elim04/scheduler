@@ -20,6 +20,7 @@ export default function Form(props) {
 
   }
 
+  //validate the form 
   function validate() {
     if (!name || !interviewer) {
 
@@ -27,11 +28,7 @@ export default function Form(props) {
       setError(errorMsg);
       return;
     }
-
-    // if(!value) {
-    //   setError("Please select an interviewer")
-    // }
-
+    
     setError("");
     props.onSave(name, interviewer);
   }
