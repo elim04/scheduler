@@ -1,8 +1,12 @@
 # Interview Scheduler
 
-## Setup
+## Getting Started
 
-Install dependencies with `npm install`.
+1. Fork this repository and git clone the fork you just made on your host machine.
+2. Go to [scheduler-api repository](https://github.com/lighthouse-labs/scheduler-api) to access the testing database and also fork and clone to your own host machine.
+3. Install dependencies with `npm install` on both cloned repos.
+4. Run both servers in their root directory folders using ```npm start``` command.
+5. Go to http://localhost:8000/ in your browser to view the app.
 
 ## Running Webpack Development Server
 
@@ -22,10 +26,16 @@ npm test
 npm run storybook
 ```
 
-## Running Cypress Test Framework
+## Running Cypress Visual Testbed
 
 ```sh
 npm run cypress
+```
+
+## Server Side Code
+
+```sh
+https://github.com/lighthouse-labs/scheduler-api
 ```
 
 ## Dependencies
