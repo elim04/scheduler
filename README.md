@@ -21,3 +21,25 @@ npm test
 ```sh
 npm run storybook
 ```
+
+## Running Cypress Test Framework
+
+```sh
+npm run cypress
+```
+
+## Dependencies
+- axios
+- classnames
+- normalize.css
+- react v.16.9.0
+- react-dom v.16.9.0
+- react-scripts 
+
+## Screenshots of Final Product
+
+!["Screenshot of Adding New Appointment"]()
+!["Screenshot of Deleting Appointment"]()
+!["Screenshot of Editing Appointment"]()
+!["Screenshot of Error Messages"]()
+
