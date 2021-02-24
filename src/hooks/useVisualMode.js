@@ -17,7 +17,7 @@ const transition = (newMode, replace = false) => {
     setMode(newMode)
   }
 
-}
+};
 
 const back = () => {
 
@@ -25,7 +25,7 @@ const back = () => {
 
   setHistory(history => history.length > 1 ? history.slice(0, -1) : history)
 
-}
+};
 
   return {mode, transition, back};
 }

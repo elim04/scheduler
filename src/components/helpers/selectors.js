@@ -14,6 +14,7 @@ export function getInterview({ interviewers }, interview) {
   if (!interview) {
     return null;
   }
+  
   const interviewInfo = interviewers[interview.interviewer];
   const finalInterview = {...interview, interviewer: interviewInfo};
 

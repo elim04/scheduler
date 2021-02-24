@@ -9,21 +9,21 @@ export default function useApplicationData() {
     days: [],
     appointments: {},
     interviewers: {},
-  })
+  });
 
   function bookInterview(id, interview) {
 
     return axios.put(`/api/appointments/${id}`, { interview })
       .then(() => dispatch({ type: SET_INTERVIEW, id, interview}))
 
-  }
+  };
 
   function cancelInterview(id) {
 
     return axios.delete(`/api/appointments/${id}`)
       .then(() => dispatch({ type: SET_INTERVIEW, id, interview: null }))
 
-  }
+  };
   
   const setDay = day => dispatch({ type: SET_DAY, day });
   
@@ -38,7 +38,7 @@ export default function useApplicationData() {
       dispatch({ type: SET_APPLICATION_DATA, days: all[0].data, appointments: all[1].data, interviewers: all[2].data })
     })
     .catch(err => console.error(err))
-  }, [])
+  }, []);
 
   //web socket setup
   useEffect(() => {
@@ -58,10 +58,10 @@ export default function useApplicationData() {
     }
     return () => {
       socket.close()
-    } 
+    };
 
-  }, [])
+  }, []);
 
-  return {state, setDay, bookInterview, cancelInterview}
+  return {state, setDay, bookInterview, cancelInterview};
 
 }

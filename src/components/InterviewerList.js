@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from 'prop-types';
 
-import "components/InterviewerList.scss"
+import "components/InterviewerList.scss";
 
 import InterviewerListItem from "components/InterviewerListItem";
 
@@ -9,7 +9,7 @@ export default function InterviewerList(props) {
 
   const { interviewers } = props;
 
-  const parsedInterviewers = interviewers.map((interviewer) => { 
+  const parsedInterviewers = interviewers.map((interviewer) => {
     return (
       <InterviewerListItem
         key={interviewer.id}
@@ -28,7 +28,7 @@ export default function InterviewerList(props) {
       <ul className="interviewers__list">{parsedInterviewers}</ul>
     </section>
 
-  )
+  );
 }
 
 //validation of interviewers props
