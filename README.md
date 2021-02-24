@@ -38,8 +38,15 @@ npm run cypress
 
 ## Screenshots of Final Product
 
+### Add new appointment
 !["Screenshot of Adding New Appointment"](https://github.com/elim04/scheduler/blob/master/docs/Addnewapt.gif)
+
+### Delete appointment
 !["Screenshot of Deleting Appointment"](https://github.com/elim04/scheduler/blob/master/docs/deleteapt.gif)
+
+### Edit appointment
 !["Screenshot of Editing Appointment"](https://github.com/elim04/scheduler/blob/master/docs/editapt.gif)
+
+### Error Messages
 !["Screenshot of Error Messages"](https://github.com/elim04/scheduler/blob/master/docs/Errormsgs.gif)
 
